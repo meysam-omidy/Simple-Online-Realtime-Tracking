@@ -4,4 +4,4 @@ This repository contains the implementation of Simple Online Realtime Tracking. 
 
 # Differences from main implementation
 
-. Added metrics 
+* Added metrics 
