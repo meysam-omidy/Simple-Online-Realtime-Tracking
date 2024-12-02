@@ -39,3 +39,17 @@ sort = SORT(None, max_age, iou_threshold_detection, iou_threshold_track)
 for frame in frames:
     sort.update(dets, gt_dets)
 ```
+
+## Results
+results on the det.txt and gt.txt without specifying detector and on the first 60 frames
+```
+Total time: 0.159s
+FPS: 5280.639
+Metrics:
+    MOTA: 0.276
+    MOTP: 0.863
+    IDF1: 0.387
+    HOTA: 0.392
+    AssA: 0.547
+    DetA: 0.281
+```
