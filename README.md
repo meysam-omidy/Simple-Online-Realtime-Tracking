@@ -16,8 +16,8 @@ To run the code, ensure you have the following dependencies installed:
 ## Differences From The Original Implementation
 
 * Added metrics dictionary to the main class and also a funcion for calculating known metrics of multiple object tracking
-* each trajectory also gets an id to help in calculation of metrics related to ids
-* gave the model the ability to get a detector as input and perform detection in place of getting detected boxes as input
+* Each trajectory also gets an id to help in the calculation of metrics related to ids
+* Gave the model the ability to get a detector as input and perform detection in place of getting detected bounding boxes as input
 
 ## Usage
 if a base detector exsits:
