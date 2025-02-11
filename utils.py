@@ -67,7 +67,7 @@ def calculate_metrics(metrics):
     hota = float(np.sqrt(np.sum(A_c) / (len(tp) + len(fp) + len(fn))))
     association_accuracy = float(np.sum(A_c) / len(metrics['tp']))
     detection_accuracy = len(metrics['tp']) / (len(metrics['tp']) + len(metrics['fp']) + len(metrics['fn']) )
-    return mota, motp, idf1, hota, association_accuracy, detection_accuracy
+    return {'MOTA':mota, 'MOTP':motp, 'IDF1':idf1, 'HOTA':hota, 'AssA':association_accuracy, 'DetA':detection_accuracy}
 
 def filter_matches(match, unmatched1, unmatched2, cost_matrix, threshold):
     matchs_to_remove = []
