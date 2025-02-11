@@ -43,12 +43,17 @@ class SORT:
             'idtp': 0,
             'idfp': 0,
             'idfn': 0,
-            'det_sims': 0
+            'det_sims': 0,
+            'object_tracked': {}
         }
         self.max_time_wtih_no_update = max_time_wtih_no_update
         self.iou_threshold_detection = iou_threshold_detection
         self.iou_threshold_track = iou_threshold_track
         self.detector = detector
+
+    def set_metrics(self, unique_ids, unique_ids_counts):
+        for id, id_count in zip(unique_ids, unique_ids_counts):
+            self.metrics['object_tracked'][int(id)] = [0, int(id_count)]
 
     def handle_trackers_removal(self):
         trackers_to_remove = []
@@ -105,6 +110,7 @@ class SORT:
             detection_pred_ids[i] = detection_gt_ids[i]
         for gt_id, pred_id in zip(detection_gt_ids, detection_pred_ids):
             self.metrics['tp'].append((gt_id, pred_id))
+            self.metrics['object_tracked'][int(gt_id)][0] += 1
         for tracker in self.trackers:
             tracker.predict()
         self.handle_trackers_removal()
@@ -128,6 +134,8 @@ if __name__ == '__main__':
     gt_dets_file = np.loadtxt('gt.txt', delimiter=',')
     dets_file = np.loadtxt('det.txt', delimiter=',')
     sort = SORT(None, args.max_age, args.iou_threshold_detection, args.iou_threshold_track)
+    unique_ids, unique_ids_counts = np.unique(gt_dets_file[:, 1], return_counts=True)
+    sort.set_metrics(unique_ids, unique_ids_counts)
     start_time = time.time()
     for i,frame_number in enumerate(np.unique(gt_dets_file[:,0])):
         gt_dets, dets = gt_dets_file[gt_dets_file[:,0] == frame_number][:, 1:6], dets_file[dets_file[:,0] == frame_number][:, 2:7]
@@ -143,6 +151,3 @@ if __name__ == '__main__':
     print('Metrics:')
     for metric in list(metrics.keys()):
         print(f'    {metric}: {round(metrics[metric], 3)}')
-
-
-
