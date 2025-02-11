@@ -51,7 +51,7 @@ def z_to_bbox(z, with_score=False):
 
 def calculate_metrics(metrics):
     mota = 1 - ((len(metrics['fn']) + len(metrics['fp']) + metrics['id_switch']) / metrics['num_gt_det'])
-    motp = metrics['det_sims'] / len(metrics['tp'])
+    motp = float(metrics['det_sims'] / len(metrics['tp']))
     idf1 = metrics['idtp'] / (metrics['idtp'] + 0.5 * metrics['idfp'] + 0.5 * metrics['idfn'])
     tp = np.array(metrics['tp'])
     fp = np.array(metrics['fp'])
@@ -67,7 +67,17 @@ def calculate_metrics(metrics):
     hota = float(np.sqrt(np.sum(A_c) / (len(tp) + len(fp) + len(fn))))
     association_accuracy = float(np.sum(A_c) / len(metrics['tp']))
     detection_accuracy = len(metrics['tp']) / (len(metrics['tp']) + len(metrics['fp']) + len(metrics['fn']) )
-    return {'MOTA':mota, 'MOTP':motp, 'IDF1':idf1, 'HOTA':hota, 'AssA':association_accuracy, 'DetA':detection_accuracy}
+    mt = 0
+    ml = 0
+    for id in metrics['object_tracked'].keys():
+        id_tracked, id_existed = metrics['object_tracked'][id]
+        if id_tracked / id_existed > 0.8:
+            mt += 1
+        elif id_tracked / id_existed < 0.2:
+            ml += 1
+    mt /= len(metrics['object_tracked'].keys())
+    ml /= len(metrics['object_tracked'].keys())
+    return {'MOTA':mota, 'MOTP':motp, 'IDF1':idf1, 'HOTA':hota, 'AssA':association_accuracy, 'DetA':detection_accuracy, 'MT':mt, 'ML':ml}
 
 def filter_matches(match, unmatched1, unmatched2, cost_matrix, threshold):
     matchs_to_remove = []
