@@ -41,7 +41,7 @@ for frame in frames:
 ```
 
 ## Results
-results on the det.txt and gt.txt without specifying detector and on the first 60 frames
+results on the det.txt and gt.txt without specifying detector:
 ```
 Total time: 0.699s
 FPS: 1197.658  
