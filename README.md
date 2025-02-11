@@ -43,13 +43,13 @@ for frame in frames:
 ## Results
 results on the det.txt and gt.txt without specifying detector and on the first 60 frames
 ```
-Total time: 0.159s
-FPS: 5280.639
-Metrics:
-    MOTA: 0.276
-    MOTP: 0.863
-    IDF1: 0.387
-    HOTA: 0.392
-    AssA: 0.547
-    DetA: 0.281
+Total time: 0.699s
+FPS: 1197.658  
+Metrics:       
+    MOTA: 0.442
+    MOTP: 0.837
+    IDF1: 0.587
+    HOTA: 0.565
+    AssA: 0.704
+    DetA: 0.454
 ```
