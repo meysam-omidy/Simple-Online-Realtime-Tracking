@@ -53,25 +53,20 @@ def calculate_metrics(metrics):
     mota = 1 - ((len(metrics['fn']) + len(metrics['fp']) + metrics['id_switch']) / metrics['num_gt_det'])
     motp = metrics['det_sims'] / len(metrics['tp'])
     idf1 = metrics['idtp'] / (metrics['idtp'] + 0.5 * metrics['idfp'] + 0.5 * metrics['idfn'])
-    accs = 0
-    for tp in metrics['tp']:
-        tpa = 0
-        fpa = 0
-        fna = 0
-        for k in metrics['tp']:
-            if tp[0] == k[0] and tp[1] == k[1]:
-                tpa += 1
-            if (tp[0] == k[0] and tp[1] != k[1]):
-                fna += 1
-            fna += metrics['fn'].count(tp[0])
-            if (tp[0] != k[0] and tp[1] == k[1]):
-                fpa += 1
-            fpa += metrics['fp'].count(tp[1])
-        accs += (tpa / (tpa + fpa + fna))
-    hota = np.sqrt(accs / (len(metrics['tp']) + len(metrics['fn']) + len(metrics['fp'])))
-    association_accuracy = accs / len(metrics['tp'])
+    tp = np.array(metrics['tp'])
+    fp = np.array(metrics['fp'])
+    fn = np.array(metrics['fn'])
+    tp0 = np.expand_dims(tp, 0)
+    tp1 = np.expand_dims(tp, 1)
+    tpa = np.count_nonzero(np.all((tp0==tp1) == [True, True], axis=2), axis=1)
+    fna = np.count_nonzero(np.all((tp0==tp1) == [True, False], axis=2), axis=1)
+    fna += np.count_nonzero((np.expand_dims(fn, 1) == np.expand_dims(tp[:, 0], 0)), axis=0)
+    fpa = np.count_nonzero(np.all((tp0==tp1) == [False, True], axis=2), axis=1)
+    fpa += np.count_nonzero((np.expand_dims(fp, 1) == np.expand_dims(tp[:, 1], 0)), axis=0)
+    A_c = tpa / (tpa + fna + fpa)
+    hota = float(np.sqrt(np.sum(A_c) / (len(tp) + len(fp) + len(fn))))
+    association_accuracy = float(np.sum(A_c) / len(metrics['tp']))
     detection_accuracy = len(metrics['tp']) / (len(metrics['tp']) + len(metrics['fp']) + len(metrics['fn']) )
-    return {'MOTA':mota, 'MOTP':motp, 'IDF1':idf1, 'HOTA':hota, 'AssA':association_accuracy, 'DetA':detection_accuracy}
     return mota, motp, idf1, hota, association_accuracy, detection_accuracy
 
 def filter_matches(match, unmatched1, unmatched2, cost_matrix, threshold):
