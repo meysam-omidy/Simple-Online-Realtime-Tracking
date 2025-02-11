@@ -4,7 +4,6 @@ This repository contains the implementation of the SORT (Simple Online and Realt
 ## Key Features
 - **Real-time Performance**: Achieves a tracking update rate of 260Hz, significantly faster than state-of-the-art trackers.
 - **Simplicity**: Utilizes basic techniques like the Kalman filter and Hungarian algorithm for motion prediction and data association.
-- **Detection Quality**: Incorporates advanced CNN-based detection methods for improved tracking accuracy.
 
 ## Requirements
 To run the code, ensure you have the following dependencies installed:
