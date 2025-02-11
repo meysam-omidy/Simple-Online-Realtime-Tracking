@@ -20,7 +20,7 @@ To run the code, ensure you have the following dependencies installed:
 * Gave the model the ability to get a detector as input and perform detection in place of getting detected bounding boxes as input
 
 ## Usage
-if a base detector exsits:
+If a base detector exsits:
 ```
 # define the detector class which has a forward function that gets an image as input and
 # returns bounding boxes alon with their confidences
@@ -33,7 +33,7 @@ sort = SORT(detector, max_age, iou_threshold_detection, iou_threshold_track)
 for frame in frames:
     sort.update(image, gt_dets)
 ```
-otherwise:
+Otherwise:
 ```
 sort = SORT(None, max_age, iou_threshold_detection, iou_threshold_track)
 for frame in frames:
@@ -41,7 +41,7 @@ for frame in frames:
 ```
 
 ## Results
-results on the det.txt and gt.txt without specifying detector:
+Results on the det.txt and gt.txt without specifying detector:
 ```
 Total time: 0.699s
 FPS: 1197.658  
