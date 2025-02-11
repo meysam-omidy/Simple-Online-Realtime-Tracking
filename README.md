@@ -43,8 +43,8 @@ for frame in frames:
 ## Results
 Results on the det.txt and gt.txt without specifying detector:
 ```
-Total time: 0.699s
-FPS: 1197.658  
+Total time: 0.681s
+FPS: 1229.195  
 Metrics:       
     MOTA: 0.442
     MOTP: 0.837
@@ -52,4 +52,6 @@ Metrics:
     HOTA: 0.565
     AssA: 0.704
     DetA: 0.454
+    MT: 0.179  
+    ML: 0.417
 ```
