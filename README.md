@@ -10,7 +10,8 @@ This repository contains the implementation of the SORT (Simple Online and Realt
 To run the code, ensure you have the following dependencies installed:
 - Python 3.x
 - NumPy
-- OpenCV
+- Filterpy
+- Scipy
 - TensorFlow or PyTorch (depending on the detection model)
 
 ## Differences From The Original Implementation
